@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Name — Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --maroon: #6B1A2A;
+      --maroon-dark: #4A1019;
+      --maroon-light: #8C2A3E;
+      --maroon-pale: #C8919C;
+      --offwhite: #F5F0E8;
+      --offwhite-warm: #EDE7D8;
+      --offwhite-deep: #DDD5C3;
+      --text-dark: #1C0A0E;
+      --text-mid: #5A3840;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--offwhite);
+      color: var(--text-dark);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 1.4rem 4rem;
+      display: flex; justify-content: space-between; align-items: center;
+      background: rgba(245, 240, 232, 0.88);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--offwhite-deep);
+    }
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.35rem;
+      font-weight: 600;
+      color: var(--maroon);
+      letter-spacing: 0.04em;
+      text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 2.2rem; list-style: none; }
+    .nav-links a {
+      text-decoration: none;
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-mid);
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--maroon); }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 0 4rem;
+      gap: 4rem;
+      padding-top: 5rem;
+    }
+    .hero-text h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.2rem, 6vw, 5.5rem);
+      font-weight: 300;
+      line-height: 1.08;
+      color: var(--maroon-dark);
+      margin-bottom: 0.3rem;
+    }
+    .hero-text h1 em {
+      font-style: italic;
+      color: var(--maroon);
+    }
+    .hero-subtitle {
+      font-size: 0.85rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--maroon-pale);
+      margin-bottom: 1.6rem;
+    }
+    .hero-text p {
+      font-size: 1rem;
+      color: var(--text-mid);
+      max-width: 420px;
+      margin-bottom: 2.4rem;
+      line-height: 1.8;
+    }
+    .btn-group { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn {
+      display: inline-block;
+      padding: 0.75rem 1.8rem;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: 1.5px solid var(--maroon);
+      transition: all 0.25s ease;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .btn-primary { background: var(--maroon); color: var(--offwhite); }
+    .btn-primary:hover { background: var(--maroon-dark); border-color: var(--maroon-dark); }
+    .btn-outline { background: transparent; color: var(--maroon); }
+    .btn-outline:hover { background: var(--maroon); color: var(--offwhite); }
+
+    .hero-photo-wrap {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+    .hero-photo-frame {
+      position: relative;
+      width: 360px;
+      height: 440px;
+    }
+    .photo-border-deco {
+      position: absolute;
+      top: -16px; right: -16px;
+      width: 100%; height: 100%;
+      border: 1.5px solid var(--maroon-pale);
+      z-index: 0;
+    }
+    .hero-photo {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      z-index: 1;
+      background: var(--offwhite-warm);
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+    .photo-placeholder {
+      width: 100%; height: 100%;
+      background: linear-gradient(160deg, var(--offwhite-warm) 0%, var(--offwhite-deep) 100%);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 1rem;
+    }
+    .photo-placeholder svg { opacity: 0.4; }
+    .photo-placeholder span {
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-mid);
+      opacity: 0.6;
+    }
+
+    /* SECTION BASE */
+    section { padding: 6rem 4rem; }
+    .section-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--maroon-pale);
+      margin-bottom: 0.6rem;
+    }
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.2rem, 4vw, 3.2rem);
+      font-weight: 300;
+      color: var(--maroon-dark);
+      margin-bottom: 2.5rem;
+      line-height: 1.15;
+    }
+    .divider {
+      width: 48px; height: 1.5px;
+      background: var(--maroon);
+      margin-bottom: 2.5rem;
+    }
+
+    /* ABOUT */
+    #about { background: var(--offwhite-warm); }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 5rem;
+      align-items: start;
+    }
+    .about-text p {
+      color: var(--text-mid);
+      margin-bottom: 1.2rem;
+      font-size: 1.05rem;
+      line-height: 1.85;
+    }
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 2.5rem;
+    }
+    .stat-item { border-top: 1.5px solid var(--maroon); padding-top: 1rem; }
+    .stat-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.6rem;
+      font-weight: 300;
+      color: var(--maroon);
+      line-height: 1;
+    }
+    .stat-label { font-size: 0.75rem; letter-spacing: 0.1em; color: var(--text-mid); margin-top: 0.25rem; }
+
+    .skills-block h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      font-weight: 400;
+      color: var(--maroon-dark);
+      margin-bottom: 1rem;
+    }
+    .skill-tags {
+      display: flex; flex-wrap: wrap; gap: 0.5rem;
+      margin-bottom: 2rem;
+    }
+    .tag {
+      font-size: 0.73rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.4rem 0.9rem;
+      border: 1px solid var(--maroon-pale);
+      color: var(--maroon);
+      background: transparent;
+    }
+
+    /* PROJECTS */
+    #projects { background: var(--offwhite); }
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+    .project-card {
+      border: 1px solid var(--offwhite-deep);
+      background: var(--offwhite-warm);
+      padding: 2rem;
+      transition: transform 0.25s ease, border-color 0.25s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px; height: 0;
+      background: var(--maroon);
+      transition: height 0.3s ease;
+    }
+    .project-card:hover::before { height: 100%; }
+    .project-card:hover { border-color: var(--maroon-pale); transform: translateY(-4px); }
+    .project-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.5rem;
+      font-weight: 300;
+      color: var(--offwhite-deep);
+      margin-bottom: 1rem;
+      line-height: 1;
+    }
+    .project-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-weight: 400;
+      color: var(--maroon-dark);
+      margin-bottom: 0.6rem;
+    }
+    .project-desc {
+      font-size: 0.9rem;
+      color: var(--text-mid);
+      line-height: 1.7;
+      margin-bottom: 1.2rem;
+    }
+    .project-tech {
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--maroon-pale);
+    }
+    .project-link {
+      display: inline-block;
+      margin-top: 1.2rem;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--maroon);
+      text-decoration: none;
+      border-bottom: 1px solid var(--maroon-pale);
+      padding-bottom: 2px;
+      transition: border-color 0.2s;
+    }
+    .project-link:hover { border-color: var(--maroon); }
+
+    /* EXPERIENCE */
+    #experience { background: var(--offwhite-warm); }
+    .timeline { max-width: 700px; }
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 2rem;
+      margin-bottom: 3rem;
+      position: relative;
+    }
+    .timeline-item:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      left: 139px; top: 28px; bottom: -1.5rem;
+      width: 1px;
+      background: var(--offwhite-deep);
+    }
+    .timeline-date {
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--maroon-pale);
+      padding-top: 4px;
+      text-align: right;
+    }
+    .timeline-dot {
+      position: absolute;
+      left: 131px; top: 5px;
+      width: 9px; height: 9px;
+      border-radius: 50%;
+      background: var(--maroon);
+    }
+    .timeline-role {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.25rem;
+      font-weight: 400;
+      color: var(--maroon-dark);
+      margin-bottom: 0.2rem;
+    }
+    .timeline-company {
+      font-size: 0.82rem;
+      letter-spacing: 0.05em;
+      color: var(--text-mid);
+      margin-bottom: 0.7rem;
+    }
+    .timeline-desc {
+      font-size: 0.9rem;
+      color: var(--text-mid);
+      line-height: 1.75;
+    }
+
+    /* CONTACT */
+    #contact { background: var(--maroon-dark); }
+    #contact .section-label { color: var(--maroon-pale); }
+    #contact .section-title { color: var(--offwhite); }
+    .contact-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: start;
+    }
+    .contact-text p {
+      color: rgba(245, 240, 232, 0.65);
+      font-size: 1rem;
+      line-height: 1.8;
+      margin-bottom: 2rem;
+    }
+    .contact-info-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    .contact-info-row a, .contact-info-row span {
+      font-size: 0.9rem;
+      color: var(--offwhite);
+      text-decoration: none;
+      opacity: 0.8;
+      transition: opacity 0.2s;
+    }
+    .contact-info-row a:hover { opacity: 1; }
+    .contact-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--maroon-pale);
+      flex-shrink: 0;
+    }
+    .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+    .contact-form input,
+    .contact-form textarea {
+      background: rgba(245, 240, 232, 0.07);
+      border: 1px solid rgba(245, 240, 232, 0.2);
+      padding: 0.85rem 1.1rem;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      color: var(--offwhite);
+      outline: none;
+      transition: border-color 0.2s;
+      resize: vertical;
+    }
+    .contact-form input::placeholder,
+    .contact-form textarea::placeholder {
+      color: rgba(245, 240, 232, 0.35);
+      font-size: 0.85rem;
+      letter-spacing: 0.04em;
+    }
+    .contact-form input:focus,
+    .contact-form textarea:focus { border-color: var(--maroon-pale); }
+    .contact-form textarea { min-height: 120px; }
+    .btn-light {
+      align-self: flex-start;
+      background: var(--offwhite);
+      color: var(--maroon-dark);
+      border-color: var(--offwhite);
+      font-weight: 500;
+    }
+    .btn-light:hover { background: var(--offwhite-warm); }
+
+    /* FOOTER */
+    footer {
+      background: var(--maroon-dark);
+      border-top: 1px solid rgba(245, 240, 232, 0.1);
+      padding: 2rem 4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    footer p {
+      font-size: 0.75rem;
+      color: rgba(245, 240, 232, 0.35);
+      letter-spacing: 0.06em;
+    }
+    .social-links { display: flex; gap: 1.5rem; }
+    .social-links a {
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(245, 240, 232, 0.45);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .social-links a:hover { color: var(--offwhite); }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      nav { padding: 1.2rem 2rem; }
+      .hero { grid-template-columns: 1fr; padding: 6rem 2rem 3rem; gap: 3rem; }
+      .hero-photo-wrap { order: -1; }
+      .hero-photo-frame { width: 260px; height: 320px; }
+      section { padding: 4rem 2rem; }
+      .about-grid, .contact-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+      .stats-row { grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+      .timeline-item { grid-template-columns: 1fr; }
+      .timeline-date { text-align: left; }
+      .timeline-item::after, .timeline-dot { display: none; }
+      footer { flex-direction: column; gap: 1rem; text-align: center; padding: 1.5rem 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo">Your Name</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#projects">Work</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-text">
+      <p class="hero-subtitle">Designer &amp; Developer</p>
+      <h1>Hello, I'm<br /><em>Your Name</em></h1>
+      <p>I craft thoughtful digital experiences — blending clean code with intentional design to build things that are both functional and beautiful.</p>
+      <div class="btn-group">
+        <a href="#projects" class="btn btn-primary">View My Work</a>
+        <a href="#contact" class="btn btn-outline">Get In Touch</a>
+      </div>
+    </div>
+    <div class="hero-photo-wrap">
+      <div class="hero-photo-frame">
+        <div class="photo-border-deco"></div>
+        <div class="hero-photo">
+          <!-- 
+            TO ADD YOUR PHOTO:
+            Replace this entire <div class="photo-placeholder">...</div> with:
+            <img src="your-photo.jpg" alt="Your Name" style="width:100%;height:100%;object-fit:cover;" />
+          -->
+          <div class="photo-placeholder">
+            <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#6B1A2A" stroke-width="1">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+            <span>Your photo here</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="about-grid">
+      <div class="about-text">
+        <p class="section-label">About Me</p>
+        <h2 class="section-title">A little about<br /><em style="font-family:'Cormorant Garamond',serif; font-style:italic;">who I am</em></h2>
+        <div class="divider"></div>
+        <p>I'm a passionate developer and designer based in [Your City], with a focus on building elegant, user-centered digital products. I believe great design is invisible — it simply works.</p>
+        <p>When I'm not coding, you'll find me exploring new technologies, contributing to open-source projects, or sketching interface concepts in my notebook.</p>
+        <div class="stats-row">
+          <div class="stat-item">
+            <div class="stat-number">3+</div>
+            <div class="stat-label">Years Experience</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">20+</div>
+            <div class="stat-label">Projects Done</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">10+</div>
+            <div class="stat-label">Happy Clients</div>
+          </div>
+        </div>
+      </div>
+      <div class="skills-block">
+        <h3>Technical Skills</h3>
+        <div class="skill-tags">
+          <span class="tag">HTML / CSS</span>
+          <span class="tag">JavaScript</span>
+          <span class="tag">React</span>
+          <span class="tag">Node.js</span>
+          <span class="tag">Python</span>
+          <span class="tag">SQL</span>
+          <span class="tag">Git</span>
+        </div>
+        <h3>Design Skills</h3>
+        <div class="skill-tags">
+          <span class="tag">Figma</span>
+          <span class="tag">UI / UX</span>
+          <span class="tag">Wireframing</span>
+          <span class="tag">Typography</span>
+          <span class="tag">Branding</span>
+        </div>
+        <h3>Soft Skills</h3>
+        <div class="skill-tags">
+          <span class="tag">Team Leadership</span>
+          <span class="tag">Communication</span>
+          <span class="tag">Problem Solving</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <p class="section-label">Selected Work</p>
+    <h2 class="section-title">Projects</h2>
+    <div class="divider"></div>
+    <div class="projects-grid">
+
+      <div class="project-card">
+        <div class="project-num">01</div>
+        <h3 class="project-title">Project Alpha</h3>
+        <p class="project-desc">A full-stack web application for managing personal finances, featuring real-time charts, budget tracking, and automated expense categorisation.</p>
+        <p class="project-tech">React · Node.js · MongoDB · Chart.js</p>
+        <a href="#" class="project-link">View Project →</a>
+      </div>
+
+      <div class="project-card">
+        <div class="project-num">02</div>
+        <h3 class="project-title">Design System</h3>
+        <p class="project-desc">A comprehensive component library built for a mid-sized SaaS company, improving design consistency and cutting frontend development time by 40%.</p>
+        <p class="project-tech">Figma · Storybook · TypeScript</p>
+        <a href="#" class="project-link">View Project →</a>
+      </div>
+
+      <div class="project-card">
+        <div class="project-num">03</div>
+        <h3 class="project-title">E-Commerce Platform</h3>
+        <p class="project-desc">An end-to-end e-commerce solution with a custom CMS, payment integration, and an admin dashboard for inventory management.</p>
+        <p class="project-tech">Next.js · Stripe · PostgreSQL</p>
+        <a href="#" class="project-link">View Project →</a>
+      </div>
+
+      <div class="project-card">
+        <div class="project-num">04</div>
+        <h3 class="project-title">Mobile App UI</h3>
+        <p class="project-desc">Designed and prototyped a wellness tracking app with an emphasis on gentle, habitual UX patterns that encourage daily engagement.</p>
+        <p class="project-tech">Figma · React Native · UX Research</p>
+        <a href="#" class="project-link">View Project →</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <p class="section-label">Career</p>
+    <h2 class="section-title">Experience</h2>
+    <div class="divider"></div>
+    <div class="timeline">
+
+      <div class="timeline-item">
+        <div class="timeline-date">2023 — Present</div>
+        <div class="timeline-dot"></div>
+        <div>
+          <h3 class="timeline-role">Frontend Developer</h3>
+          <p class="timeline-company">Company Name · Full-time</p>
+          <p class="timeline-desc">Building scalable React applications, leading UI architecture decisions, and collaborating closely with design and product teams to ship polished user experiences.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-date">2022 — 2023</div>
+        <div class="timeline-dot"></div>
+        <div>
+          <h3 class="timeline-role">UI/UX Designer</h3>
+          <p class="timeline-company">Another Company · Full-time</p>
+          <p class="timeline-desc">Redesigned the core product experience, ran user research sessions, and created a scalable design system adopted across four product lines.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-date">2021 — 2022</div>
+        <div class="timeline-dot"></div>
+        <div>
+          <h3 class="timeline-role">Junior Web Developer</h3>
+          <p class="timeline-company">Freelance · Contract</p>
+          <p class="timeline-desc">Delivered custom websites and landing pages for small businesses, focusing on performance, accessibility, and responsive design.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-date">2017 — 2021</div>
+        <div class="timeline-dot"></div>
+        <div>
+          <h3 class="timeline-role">B.Tech Computer Science</h3>
+          <p class="timeline-company">University Name · Degree</p>
+          <p class="timeline-desc">Graduated with honours, specialising in software engineering and human-computer interaction. Active member of the coding and design clubs.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="contact-inner">
+      <div class="contact-text">
+        <p class="section-label">Let's Talk</p>
+        <h2 class="section-title" style="color: var(--offwhite);">Get In<br />Touch</h2>
+        <div class="divider" style="background: var(--maroon-pale);"></div>
+        <p>I'm always open to discussing new projects, creative ideas, or opportunities to be part of something meaningful. Feel free to reach out.</p>
+        <div class="contact-info-row">
+          <div class="contact-dot"></div>
+          <a href="mailto:you@email.com">you@email.com</a>
+        </div>
+        <div class="contact-info-row">
+          <div class="contact-dot"></div>
+          <a href="tel:+919999999999">+91 99999 99999</a>
+        </div>
+        <div class="contact-info-row">
+          <div class="contact-dot"></div>
+          <span>Surat, Gujarat, India</span>
+        </div>
+      </div>
+      <form class="contact-form" onsubmit="return false;">
+        <input type="text" placeholder="Your Name" />
+        <input type="email" placeholder="Your Email" />
+        <input type="text" placeholder="Subject" />
+        <textarea placeholder="Your message…"></textarea>
+        <button type="submit" class="btn btn-light">Send Message</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2025 Your Name. All rights reserved.</p>
+    <div class="social-links">
+      <a href="https://github.com/" target="_blank">GitHub</a>
+      <a href="https://linkedin.com/" target="_blank">LinkedIn</a>
+      <a href="https://twitter.com/" target="_blank">Twitter</a>
+      <a href="/resume.pdf" target="_blank">Résumé</a>
+    </div>
+  </footer>
+
+</body>
+</html>
